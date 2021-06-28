@@ -9,20 +9,17 @@ const Form = props => {
 
   const handleSubmit = event => {
     event.preventDefault()
-    console.log('antes')
-    if (username.trim().length === 0) {
+    if (username.trim().length === 0 || age.trim().length === 0) {
       setIsValid(false)
       return
     }
-    console.log('depois')
-
-    const data = {
-      name: username,
-      age: +age,
-      id: Math.random().toString(),
+    if (+age < 1) {
+      return
     }
 
-    props.takeData(data)
+    props.onAddUser(username, age)
+    setUsername('')
+    setAge('')
   }
 
   const handleUsernameChange = event => {

@@ -6,20 +6,21 @@ import PersonList from './components/PersonList'
 import './App.css'
 
 function App() {
-  const [data, setData] = useState([])
+  const [usersList, setUsersList] = useState([])
 
-  const handleSaveData = data => {
-    setData(prevData => {
-      return [data, ...prevData]
+  const handleSaveData = (name, age) => {
+    setUsersList(prevData => {
+      return [
+        ...prevData,
+        { name: name, age: age, id: Math.random().toString() },
+      ]
     })
-
-    console.log(data)
   }
 
   return (
     <div className='form'>
-      <Form takeData={handleSaveData} />
-      <PersonList text={data} />
+      <Form onAddUser={handleSaveData} />
+      <PersonList users={usersList} />
     </div>
   )
 }
