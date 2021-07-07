@@ -1,5 +1,6 @@
-import { Fragment, useState, useEffect, Component } from 'react'
+import { Fragment, Component } from 'react'
 
+import UsersContext from '../context/users-context'
 import Users from './Users'
 import classes from './UserFinder.module.css'
 
@@ -10,18 +11,24 @@ const DUMMY_USERS = [
 ]
 
 class UserFinder extends Component {
+  static contextType = UsersContext
+
   constructor() {
     super()
     this.state = {
-      filteredUsers: DUMMY_USERS,
+      filteredUsers: [],
       searchTerm: '',
     }
   }
 
-  componentDidMount(prevProps, prevState) {
+  componentDidMount() {
+    this.setState({ filteredUsers: this.context.users })
+  }
+
+  componentDidUpdate(prevProps, prevState) {
     if (prevState.searchTerm !== this.state.searchTerm) {
       this.setState({
-        filteredUsers: DUMMY_USERS.filter(user =>
+        filteredUsers: this.context.users.filter(user =>
           user.name.includes(this.state.searchTerm)
         ),
       })
